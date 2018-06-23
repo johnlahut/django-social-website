@@ -20,6 +20,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('account/', include('account.urls', namespace='account')),
+    path('accounts/', include('account.urls', namespace='account')),
     path('admin/', admin.site.urls),
 
     # python-social-auth
