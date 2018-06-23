@@ -25,7 +25,9 @@ SECRET_KEY = '@_=o9jle^i#@y7hx7p8&izd7ym*saio36#$l1lzs)nuysk!v+&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mysite.com']
+
+SECURE_SSL_REDIRECT = True
 
 
 # Application definition
@@ -38,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',                         # admin must come after account to display custom login/logout page
+    'social_django',
+    'sslserver',
 ]
 
 MIDDLEWARE = [
@@ -49,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    # 'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'bookmarks.urls'
@@ -64,6 +69,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -121,17 +128,36 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# specify custom authentication backends (and default) order matters, first one to pass takes
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'account.authentication.EmailAuthBackend',          # enable users to authenticate with email or username
+    'social_core.backends.facebook.FacebookOAuth2',     # enable users to authenticate with Facebook
+    'social_core.backends.twitter.TwitterOAuth',        # enable users to authenticate with Twitter
+    'social_core.backends.google.GoogleOAuth2',         # enable users to authenticate with Google
+)
+
 # allow media upload
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 
+# social auth keys
+SOCIAL_AUTH_FACEBOOK_KEY = '425318267937331'
+SOCIAL_AUTH_FACEBOOK_SECRET = '0e3fb99bf85aa56a1c18a3b49e32cc26'
+
+SOCIAL_AUTH_TWITTER_KEY = 'pHZmhvhN4osPSyM8liwwiecYS'
+SOCIAL_AUTH_TWITTER_SECRET = 'eSmxYmJpRO7FYu9z0XAGiYECD0058G2F0xXm9zk3DfMek5ADVh'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '607097118439-4805bnktu7sir2g4jln43h72q3bjurmv.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'FA1mrNi5jm-FV18ipAKkxdKV'
+
 # tells django where to redirect after authentication
 from django.urls import reverse_lazy  # reverse URLs
 
 LOGIN_REDIRECT_URL = reverse_lazy('account:dashboard')
-LOGIN_URL = reverse_lazy('account:login')
+# LOGIN_URL = reverse_lazy('account:login')
 LOGOUT_URL = reverse_lazy('account:logout')
 
 # set up external email 'server' for hosting and sending emails

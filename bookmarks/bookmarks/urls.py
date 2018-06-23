@@ -21,6 +21,9 @@ from django.conf import settings
 urlpatterns = [
     path('account/', include('account.urls', namespace='account')),
     path('admin/', admin.site.urls),
+
+    # python-social-auth
+    path('social-auth/', include('social_django.urls', namespace='social')),
 ]
 
 # do not do this in  a production env

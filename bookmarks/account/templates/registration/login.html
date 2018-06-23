@@ -14,6 +14,7 @@
         <p>Use the following form to login:</p>
     {% endif %}
 
+    <!-- local, classic login -->
     <div class="login-form">
         <form action="{% url "account:login" %}" method="post">
             {{ form.as_p }}
@@ -25,5 +26,14 @@
         </form>
         <p><a href="{% url "account:register" %}">New user?</a></p>
         <p><a href="{% url "account:password_reset" %}">Forgot your password?</a></p>
+    </div>
+
+    <!-- social account logins -->
+    <div class="social">
+        <ul>
+            <li class="facebook"><a href="{% url "social:begin" "facebook"%}">Login with Facebook</a></li>
+            <li class="twitter"><a href="{% url "social:begin" "twitter" %}">Login with Twitter</a></li>
+            <li class="google"><a href="{% url "social:begin" "google-oauth2"%}">Login with Google</a></li>
+        </ul>
     </div>
 {% endblock %}
