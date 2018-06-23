@@ -32,12 +32,12 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'account',
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.admin',                         # admin must come after account to display custom login/logout page
 ]
 
 MIDDLEWARE = [
@@ -126,6 +126,14 @@ STATIC_URL = '/static/'
 from django.urls import reverse_lazy  # reverse URLs
 
 LOGIN_REDIRECT_URL = reverse_lazy('account:dashboard')
-# OGOUT_REDIRECT_URL = reverse_lazy('account:logout')
 LOGIN_URL = reverse_lazy('account:login')
 LOGOUT_URL = reverse_lazy('account:logout')
+
+# set up external email 'server' for hosting and sending emails
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'lahut13@gmail.com'
+EMAIL_HOST_PASSWORD = 'Twobro9078'
+EMAIL_PORT = 587
